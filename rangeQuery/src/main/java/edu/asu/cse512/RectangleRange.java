@@ -1,8 +1,6 @@
-package src.main.java.edu.asu.cse512;
+package edu.asu.cse512;
 
 import java.io.Serializable;
-
-import src.main.java.edu.asu.cse512.PointRange;
 
 public class RectangleRange implements Serializable {
 
@@ -16,7 +14,7 @@ public class RectangleRange implements Serializable {
 	PointRange upperLeftPoint;
 	// lower right point for the rectangle
 	PointRange lowerRightPoint;
-	
+
 	public int getRectangleId() {
 		return rectangleId;
 	}
@@ -42,7 +40,8 @@ public class RectangleRange implements Serializable {
 	}
 
 	// Constructor for initializing the rectangle object
-	RectangleRange(int inputId, PointRange inUpperLeftPoint, PointRange inLowerRightPoint) {
+	RectangleRange(int inputId, PointRange inUpperLeftPoint,
+			PointRange inLowerRightPoint) {
 		this.rectangleId = inputId;
 		this.upperLeftPoint = inUpperLeftPoint;
 		this.lowerRightPoint = inLowerRightPoint;
@@ -66,17 +65,19 @@ public class RectangleRange implements Serializable {
 		}
 		return isInside;
 	}
-	
+
 	public Boolean isOverlap(RectangleRange rect) {
-		
-		 // If one rectangle is on left side of other
-	    if (upperLeftPoint.x > rect.lowerRightPoint.x || rect.upperLeftPoint.x > lowerRightPoint.x)
-	        return false;
-	 
-	    // If one rectangle is above other
-	    if (upperLeftPoint.y < rect.lowerRightPoint.y || rect.upperLeftPoint.y < lowerRightPoint.y)
-	        return false;
-	 
-	    return true;
+
+		// If one rectangle is on left side of other
+		if (upperLeftPoint.x > rect.lowerRightPoint.x
+				|| rect.upperLeftPoint.x > lowerRightPoint.x)
+			return false;
+
+		// If one rectangle is above other
+		if (upperLeftPoint.y < rect.lowerRightPoint.y
+				|| rect.upperLeftPoint.y < lowerRightPoint.y)
+			return false;
+
+		return true;
 	}
 }

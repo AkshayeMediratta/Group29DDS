@@ -1,4 +1,4 @@
-package src.test.java.edu.asu.cse512;
+package edu.asu.cse512;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

@@ -1,4 +1,4 @@
-package src.main.java.edu.asu.cse512;
+package edu.asu.cse512;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,32 +28,35 @@ public class ClosestPair {
 					}
 				});
 
-		JavaRDD<PointClosest> points = pointsData.map(new Function<String, PointClosest>() {
-			public PointClosest call(String row) {
-				String[] xy = row.split(",");
-				return new PointClosest(Double.parseDouble(xy[0]), Double
-						.parseDouble(xy[1]));
-			}
-		});
+		JavaRDD<PointClosest> points = pointsData
+				.map(new Function<String, PointClosest>() {
+					public PointClosest call(String row) {
+						String[] xy = row.split(",");
+						return new PointClosest(Double.parseDouble(xy[0]),
+								Double.parseDouble(xy[1]));
+					}
+				});
 		final List<PointClosest> listPoints = points.collect();
 		sc.broadcast(listPoints);
-		JavaRDD<PointPairClosest> pairs = points.map(new Function<PointClosest, PointPairClosest>() {
-			private static final long serialVersionUID = 1L;
+		JavaRDD<PointPairClosest> pairs = points
+				.map(new Function<PointClosest, PointPairClosest>() {
+					private static final long serialVersionUID = 1L;
 
-			public PointPairClosest call(PointClosest point) {
-				double minDist = Double.POSITIVE_INFINITY;
-				PointPairClosest minDistPointPair = null;
-				for (PointClosest hullPoint : listPoints) {
-					PointPairClosest pointPair = new PointPairClosest(point, hullPoint);
-					double dist = pointPair.getDistance();
-					if (dist > 0 && dist < minDist) {
-						minDist = dist;
-						minDistPointPair = pointPair;
+					public PointPairClosest call(PointClosest point) {
+						double minDist = Double.POSITIVE_INFINITY;
+						PointPairClosest minDistPointPair = null;
+						for (PointClosest hullPoint : listPoints) {
+							PointPairClosest pointPair = new PointPairClosest(
+									point, hullPoint);
+							double dist = pointPair.getDistance();
+							if (dist > 0 && dist < minDist) {
+								minDist = dist;
+								minDistPointPair = pointPair;
+							}
+						}
+						return minDistPointPair;
 					}
-				}
-				return minDistPointPair;
-			}
-		});
+				});
 
 		// JavaPairRDD<PointPair, Double> finalPoints = pairs.sortByKey(false);
 		// Tuple2<PointPair, Double> input = finalPoints.first();
@@ -64,8 +67,8 @@ public class ClosestPair {
 					 */
 					private static final long serialVersionUID = 1L;
 
-					public PointPairClosest call(PointPairClosest point1, PointPairClosest point2)
-							throws Exception {
+					public PointPairClosest call(PointPairClosest point1,
+							PointPairClosest point2) throws Exception {
 						if (point1.getDistance() < point2.getDistance()) {
 							return point1;
 						}

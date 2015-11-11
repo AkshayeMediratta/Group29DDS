@@ -1,6 +1,4 @@
-package src.main.java.edu.asu.cse512;
-
-import src.main.java.edu.asu.cse512.RectangleRange;
+package edu.asu.cse512;
 
 import java.io.Serializable;
 
@@ -18,7 +16,7 @@ public class PointRange implements Serializable {
 		x = x1;
 		y = y1;
 	}
-	
+
 	public PointRange(Integer pointID, Double x1, Double y1) {
 		this.pointID = pointID;
 		x = x1;
@@ -40,7 +38,7 @@ public class PointRange implements Serializable {
 	public void setX(Double x) {
 		this.x = x;
 	}
-	
+
 	public Integer getPointID() {
 		return pointID;
 	}
@@ -55,7 +53,7 @@ public class PointRange implements Serializable {
 	public Boolean isPointinsideQueryWindow(RectangleRange rect) {
 		Boolean isInside;
 		// Check if the point is inside the given rectangle or not
-		
+
 		if (this.x >= rect.getUpperLeftPoint().getX()
 				&& this.y <= rect.getUpperLeftPoint().getY()
 				&& this.x <= rect.getLowerRightPoint().getX()

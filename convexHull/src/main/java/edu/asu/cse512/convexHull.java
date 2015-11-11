@@ -1,4 +1,4 @@
-package src.main.java.edu.asu.cse512;
+package edu.asu.cse512;
 
 /**
  * Hello world!

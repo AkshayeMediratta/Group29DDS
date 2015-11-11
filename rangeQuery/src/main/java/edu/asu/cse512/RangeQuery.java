@@ -1,4 +1,4 @@
-package src.main.java.edu.asu.cse512;
+package edu.asu.cse512;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;

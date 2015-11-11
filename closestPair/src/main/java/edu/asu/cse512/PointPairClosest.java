@@ -1,8 +1,9 @@
-package src.main.java.edu.asu.cse512;
+package edu.asu.cse512;
 
 import java.io.Serializable;
 
-public class PointPairClosest implements Comparable<PointPairClosest>, Serializable {
+public class PointPairClosest implements Comparable<PointPairClosest>,
+		Serializable {
 	/**
 	 * 
 	 */
