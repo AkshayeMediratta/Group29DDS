@@ -31,7 +31,6 @@ hdfs://192.168.139.149:54310/harsh/JoinQueryInput2.csv hdfs://192.168.139.149:54
 ~/Downloads/spark/bin/spark-submit   --class "src.main.java.edu.asu.cse512.Join" --master spark://192.168.139.149:7077 target/joinQuery-0.1.jar hdfs://192.168.139.149:54310/harsh/JoinQueryInput3.csv hdfs://192.168.139.149:54310/harsh/JoinQueryInput2.csv hdfs://192.168.139.149:54310/harsh/JoinQueryPointResult.csv point
 
 ################################################################################################################################
-
 General notes:
 
 * Range Query and Join Query is considering the upper left corner and the lower right corner points as rectangle inputs.
