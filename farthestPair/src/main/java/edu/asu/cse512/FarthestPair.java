@@ -33,23 +33,23 @@ public class FarthestPair {
 					}
 				});
 
-		JavaRDD<Point> points = pointsData.map(new Function<String, Point>() {
-			public Point call(String row) {
+		JavaRDD<PointFarthest> points = pointsData.map(new Function<String, PointFarthest>() {
+			public PointFarthest call(String row) {
 				String[] xy = row.split(",");
-				return new Point(Double.parseDouble(xy[0]), Double
+				return new PointFarthest(Double.parseDouble(xy[0]), Double
 						.parseDouble(xy[1]));
 			}
 		});
-		final List<Point> listPoints = points.collect();
+		final List<PointFarthest> listPoints = points.collect();
 		sc.broadcast(listPoints);
-		JavaRDD<PointPair> pairs = points.map(new Function<Point, PointPair>() {
+		JavaRDD<PointPairFarthest> pairs = points.map(new Function<PointFarthest, PointPairFarthest>() {
 			private static final long serialVersionUID = 1L;
 
-			public PointPair call(Point point) {
+			public PointPairFarthest call(PointFarthest point) {
 				double maxDist = 0.0;
-				PointPair maxDistPointPair = null;
-				for (Point hullPoint : listPoints) {
-					PointPair pointPair = new PointPair(point, hullPoint);
+				PointPairFarthest maxDistPointPair = null;
+				for (PointFarthest hullPoint : listPoints) {
+					PointPairFarthest pointPair = new PointPairFarthest(point, hullPoint);
 					double dist = pointPair.getDistance();
 					if (dist > maxDist) {
 						maxDist = dist;
@@ -62,14 +62,14 @@ public class FarthestPair {
 
 		// JavaPairRDD<PointPair, Double> finalPoints = pairs.sortByKey(false);
 		// Tuple2<PointPair, Double> input = finalPoints.first();
-		PointPair finalPoints = pairs
-				.reduce(new Function2<PointPair, PointPair, PointPair>() {
+		PointPairFarthest finalPoints = pairs
+				.reduce(new Function2<PointPairFarthest, PointPairFarthest, PointPairFarthest>() {
 					/**
 					 * 
 					 */
 					private static final long serialVersionUID = 1L;
 
-					public PointPair call(PointPair point1, PointPair point2)
+					public PointPairFarthest call(PointPairFarthest point1, PointPairFarthest point2)
 							throws Exception {
 						if (point1.getDistance() > point2.getDistance()) {
 							return point1;

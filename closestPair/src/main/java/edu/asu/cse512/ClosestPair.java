@@ -28,23 +28,23 @@ public class ClosestPair {
 					}
 				});
 
-		JavaRDD<Point> points = pointsData.map(new Function<String, Point>() {
-			public Point call(String row) {
+		JavaRDD<PointClosest> points = pointsData.map(new Function<String, PointClosest>() {
+			public PointClosest call(String row) {
 				String[] xy = row.split(",");
-				return new Point(Double.parseDouble(xy[0]), Double
+				return new PointClosest(Double.parseDouble(xy[0]), Double
 						.parseDouble(xy[1]));
 			}
 		});
-		final List<Point> listPoints = points.collect();
+		final List<PointClosest> listPoints = points.collect();
 		sc.broadcast(listPoints);
-		JavaRDD<PointPair> pairs = points.map(new Function<Point, PointPair>() {
+		JavaRDD<PointPairClosest> pairs = points.map(new Function<PointClosest, PointPairClosest>() {
 			private static final long serialVersionUID = 1L;
 
-			public PointPair call(Point point) {
+			public PointPairClosest call(PointClosest point) {
 				double minDist = Double.POSITIVE_INFINITY;
-				PointPair minDistPointPair = null;
-				for (Point hullPoint : listPoints) {
-					PointPair pointPair = new PointPair(point, hullPoint);
+				PointPairClosest minDistPointPair = null;
+				for (PointClosest hullPoint : listPoints) {
+					PointPairClosest pointPair = new PointPairClosest(point, hullPoint);
 					double dist = pointPair.getDistance();
 					if (dist > 0 && dist < minDist) {
 						minDist = dist;
@@ -57,14 +57,14 @@ public class ClosestPair {
 
 		// JavaPairRDD<PointPair, Double> finalPoints = pairs.sortByKey(false);
 		// Tuple2<PointPair, Double> input = finalPoints.first();
-		PointPair finalPoints = pairs
-				.reduce(new Function2<PointPair, PointPair, PointPair>() {
+		PointPairClosest finalPoints = pairs
+				.reduce(new Function2<PointPairClosest, PointPairClosest, PointPairClosest>() {
 					/**
 					 * 
 					 */
 					private static final long serialVersionUID = 1L;
 
-					public PointPair call(PointPair point1, PointPair point2)
+					public PointPairClosest call(PointPairClosest point1, PointPairClosest point2)
 							throws Exception {
 						if (point1.getDistance() < point2.getDistance()) {
 							return point1;
